@@ -1,20 +1,38 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Adobe SDK Test</title>
+    <meta charset="UTF-8" />
+    <title>Adobe Express SDK Test</title>
   </head>
   <body>
-    <h1>Adobe Express Embedded SDK Test</h1>
+    <h1>Adobe Express CCEverywhere SDK Test</h1>
 
-    <div id="adobe-container"></div>
+    <div id="status">Initializing...</div>
 
-    <script src="https://sdk.adobe.com/express/embedded/v1/express-embedded-sdk.js"></script>
+    <!-- 1) SDK 스크립트 불러오기 -->
+    <script src="https://cc-embed.adobe.com/sdk/v4/CCEverywhere.js"></script>
 
+    <!-- 2) SDK 초기화 -->
     <script>
-      AdobeExpressEmbeddedSDK.init({
-        clientId: "8bcfb6b448b64efa8650c164b4229b1a",
-        container: document.getElementById("adobe-container")
-      });
+      (async () => {
+        try {
+          const ccEverywhere = await window.CCEverywhere.initialize({
+            clientId: "8bcfb6b448b64efa8650c164b4229b1a",   // 콘솔에 나온 API Key
+            appName: "jay-adobe-test"       // 네가 정하는 이름
+          });
+
+          // 여기까지 오면 초기화 성공
+          document.getElementById("status").innerText =
+            "SDK initialized successfully!";
+
+          // 나중에: ccEverywhere. editor/module / quickAction 을 여기서 사용
+          console.log("ccEverywhere object:", ccEverywhere);
+        } catch (e) {
+          console.error(e);
+          document.getElementById("status").innerText =
+            "Failed to initialize SDK. Check console.";
+        }
+      })();
     </script>
   </body>
 </html>
