@@ -1,1 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Adobe SDK Test</title>
+  </head>
+  <body>
+    <h1>Adobe Express Embedded SDK Test</h1>
 
+    <div id="adobe-container"></div>
+
+    <script src="https://sdk.adobe.com/express/embedded/v1/express-embedded-sdk.js"></script>
+
+    <script>
+      AdobeExpressEmbeddedSDK.init({
+        clientId: "8bcfb6b448b64efa8650c164b4229b1a",
+        container: document.getElementById("adobe-container")
+      });
+    </script>
+  </body>
+</html>
