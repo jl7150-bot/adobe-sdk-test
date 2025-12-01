@@ -2,33 +2,32 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Adobe Express SDK Test</title>
+    <title>Adobe Express Editor Test</title>
   </head>
   <body>
-    <h1>Adobe Express CCEverywhere SDK Test</h1>
+    <h1>Adobe Express Editor Demo</h1>
 
-    <div id="status">Initializing...</div>
+    <!-- Editor가 표시될 iframe을 담을 div -->
+    <div id="express-container" style="width:100%; height:800px;"></div>
 
-    <!-- 1) SDK 스크립트 불러오기 -->
+    <!-- SDK Load -->
     <script src="https://cc-embed.adobe.com/sdk/v4/CCEverywhere.js"></script>
 
-    <!-- 2) SDK 초기화 -->
     <script>
       (async () => {
-        try {
-          const ccEverywhere = await window.CCEverywhere.initialize({
-            clientId: "8bcfb6b448b64efa8650c164b4229b1a",   // 콘솔에 나온 API Key
-            appName: "jay-adobe-test"       // 네가 정하는 이름
-          });
+        // SDK 초기화
+        const ccEverywhere = await window.CCEverywhere.initialize({
+          clientId: "YOUR_API_KEY",
+          appName: "jay-express-sdk"
+        });
 
-          // 여기까지 오면 초기화 성공
-          console.log("SDK initialized:", ccEverywhere);
+        console.log("SDK initialized:", ccEverywhere);
 
         // ⭐ FULL EDITOR 띄우기
-          const editor = await ccEverywhere.editor.open({
-            container: document.getElementById("express-container"),
-            mode: "full",      // 전체 에디터
-            layout: "default"  // 기본 레이아웃
+        const editor = await ccEverywhere.editor.open({
+          container: document.getElementById("express-container"),
+          mode: "full",      // 전체 에디터
+          layout: "default"  // 기본 레이아웃
         });
 
         console.log("Editor loaded:", editor);
