@@ -22,17 +22,18 @@
           });
 
           // 여기까지 오면 초기화 성공
-          document.getElementById("status").innerText =
-            "SDK initialized successfully!";
+          console.log("SDK initialized:", ccEverywhere);
 
-          // 나중에: ccEverywhere. editor/module / quickAction 을 여기서 사용
-          console.log("ccEverywhere object:", ccEverywhere);
-        } catch (e) {
-          console.error(e);
-          document.getElementById("status").innerText =
-            "Failed to initialize SDK. Check console.";
-        }
+        // ⭐ FULL EDITOR 띄우기
+          const editor = await ccEverywhere.editor.open({
+            container: document.getElementById("express-container"),
+            mode: "full",      // 전체 에디터
+            layout: "default"  // 기본 레이아웃
+        });
+
+        console.log("Editor loaded:", editor);
       })();
     </script>
+
   </body>
 </html>
