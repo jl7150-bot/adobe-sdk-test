@@ -10,41 +10,48 @@
     <!-- 상태 메시지 -->
     <p id="status">Initializing SDK...</p>
 
-    <!-- Editor가 표시될 영역 -->
-    <div
-      id="express-container"
-      style="width: 100%; height: 800px; border: 1px solid #ccc;"
-    ></div>
+    <!-- 에디터 띄우는 버튼 -->
+    <button id="openEditorButton">Open Adobe Express Editor</button>
 
-    <!-- SDK 로드 -->
+    <!-- Adobe Express CCEverywhere SDK 불러오기 -->
     <script src="https://cc-embed.adobe.com/sdk/v4/CCEverywhere.js"></script>
 
     <script>
       (async () => {
         const statusEl = document.getElementById("status");
+        const buttonEl = document.getElementById("openEditorButton");
 
         try {
           // 1) SDK 초기화
-          const ccEverywhere = await window.CCEverywhere.initialize({
-            clientId: "8bcfb6b448b64efa8650c164b4229b1a", // 🔴 여기 실제 API Key로 교체
-            appName: "jay-express-sdk"
-          });
+          const hostInfo = {
+            clientId: "8bcfb6b448b64efa8650c164b4229b1a", // 🔴 여기 실제 API Key 넣기
+            appName: "jay-express-sdk"     // 네가 정한 앱 이름
+          };
 
-          console.log("SDK initialized:", ccEverywhere);
-          statusEl.textContent = "SDK initialized. Loading editor...";
+          const configParams = {}; // 처음엔 옵션 비워둬도 됨
 
-          // 2) 에디터 열기
-          const editor = await ccEverywhere.editor.open({
-            container: document.getElementById("express-container"),
-            mode: "full",
-            layout: "default"
-          });
+          // initialize가 editor, module, quickAction 를 리턴함
+          const { editor } = await window.CCEverywhere.initialize(
+            hostInfo,
+            configParams
+          );
 
-          console.log("Editor loaded:", editor);
-          statusEl.textContent = "Editor loaded ✅";
+          console.log("SDK initialized. editor:", editor);
+          statusEl.textContent = "SDK initialized ✅ Click the button to open the editor.";
+
+          // 2) 버튼 클릭 시 에디터 띄우기 (가장 단순한 형태)
+          buttonEl.onclick = () => {
+            try {
+              editor.create(); // 별도 옵션 없이 기본 에디터 모달로 열기
+            } catch (e) {
+              console.error("Editor create error:", e);
+              alert("Failed to open editor. Check console.");
+            }
+          };
         } catch (e) {
-          console.error("SDK error:", e);
-          statusEl.textContent = "Error: " + (e && e.message ? e.message : e);
+          console.error("SDK init error:", e);
+          statusEl.textContent =
+            "Error initializing SDK: " + (e && e.message ? e.message : e);
           statusEl.style.color = "red";
         }
       })();
