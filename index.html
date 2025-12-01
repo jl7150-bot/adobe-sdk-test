@@ -7,32 +7,47 @@
   <body>
     <h1>Adobe Express Editor Demo</h1>
 
-    <!-- Editor가 표시될 iframe을 담을 div -->
-    <div id="express-container" style="width:100%; height:800px;"></div>
+    <!-- 상태 메시지 -->
+    <p id="status">Initializing SDK...</p>
 
-    <!-- SDK Load -->
+    <!-- Editor가 표시될 영역 -->
+    <div
+      id="express-container"
+      style="width: 100%; height: 800px; border: 1px solid #ccc;"
+    ></div>
+
+    <!-- SDK 로드 -->
     <script src="https://cc-embed.adobe.com/sdk/v4/CCEverywhere.js"></script>
 
     <script>
       (async () => {
-        // SDK 초기화
-        const ccEverywhere = await window.CCEverywhere.initialize({
-          clientId: "8bcfb6b448b64efa8650c164b4229b1a",
-          appName: "jay-express-sdk"
-        });
+        const statusEl = document.getElementById("status");
 
-        console.log("SDK initialized:", ccEverywhere);
+        try {
+          // 1) SDK 초기화
+          const ccEverywhere = await window.CCEverywhere.initialize({
+            clientId: "8bcfb6b448b64efa8650c164b4229b1a", // 🔴 여기 실제 API Key로 교체
+            appName: "jay-express-sdk"
+          });
 
-        // ⭐ FULL EDITOR 띄우기
-        const editor = await ccEverywhere.editor.open({
-          container: document.getElementById("express-container"),
-          mode: "full",      // 전체 에디터
-          layout: "default"  // 기본 레이아웃
-        });
+          console.log("SDK initialized:", ccEverywhere);
+          statusEl.textContent = "SDK initialized. Loading editor...";
 
-        console.log("Editor loaded:", editor);
+          // 2) 에디터 열기
+          const editor = await ccEverywhere.editor.open({
+            container: document.getElementById("express-container"),
+            mode: "full",
+            layout: "default"
+          });
+
+          console.log("Editor loaded:", editor);
+          statusEl.textContent = "Editor loaded ✅";
+        } catch (e) {
+          console.error("SDK error:", e);
+          statusEl.textContent = "Error: " + (e && e.message ? e.message : e);
+          statusEl.style.color = "red";
+        }
       })();
     </script>
-
   </body>
 </html>
